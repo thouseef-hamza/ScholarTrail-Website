@@ -33,7 +33,7 @@ class Course(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return self.product_name
+        return self.course_name
 
 
 class EnrollCourse(models.Model):
