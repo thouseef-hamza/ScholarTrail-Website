@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from blog.models import BlogPost, PostComment
 from django.views import View
-from django.urls import reverse
+from blog.forms import CommentForm
+from django.http import JsonResponse
+
 
 # Create your views here.
 
@@ -20,24 +22,35 @@ class BlogDetailView(View):
         except:
             return redirect("blogs-list")
         blogs = BlogPost.objects.exclude(id=id)
+        form = CommentForm()
         return render(
-            request, "blog/blog_detail.html", {"blog_data": blog, "blogs": blogs}
+            request,
+            "blog/blog_detail.html",
+            {"blog_data": blog, "blogs": blogs, "forms": form},
         )
 
     def post(self, request, id, *args, **kwargs):
         try:
+            print(request.is_ajax())
+        except:
+            pass
+        print(request.headers)
+        try:
             blog = BlogPost.objects.get(id=id)
         except:
             return redirect("blogs-list")
-        full_name = request.POST.get("full_name")
-        email = request.POST.get("email")
-        website = request.POST.get("website")
-        message = request.POST.get("message")
+        forms = CommentForm(request.POST)
+        if not forms.is_valid():
+            return JsonResponse(
+                {"errors": forms.errors, "success": False, "status": 400}
+            )
         PostComment.objects.create(
             post=blog,
-            full_name=full_name,
-            email=email,
-            message=message,
-            website=website,
+            full_name=forms.cleaned_data.get("full_name", None),
+            email=forms.cleaned_data.get("email", None),
+            message=forms.cleaned_data.get("message", None),
+            website=forms.cleaned_data.get("website", None),
         )
-        return redirect(reverse("blog_detail", kwargs={"id": id}))
+        return JsonResponse(
+            {"message": "Comment Created Successfully", "success": True, "status": 201}
+        )

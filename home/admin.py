@@ -7,3 +7,4 @@ admin.site.register(Contact)
 admin.site.register(Teacher)
 admin.site.register(Thumbnail)
 admin.site.register(EnrollCourse)
+

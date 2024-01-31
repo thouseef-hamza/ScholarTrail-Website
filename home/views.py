@@ -75,3 +75,19 @@ class ContactCreateView(View):
                 }
             )
         return JsonResponse({"errors": forms.errors, "success": False, "status": 400})
+    
+class TeacherDetailView(View):
+    def get(self,request,id,*args, **kwargs):
+        try:
+            teacher=Teacher.objects.get(id=id)
+        except:
+            return redirect("home-view")
+        response_data={
+            "id":teacher.id,
+            "first_name":teacher.first_name,
+            "last_name":teacher.last_name,
+            "profile_picture":teacher.profile_picture.url,
+            "position":teacher.position,
+            "short_description":teacher.short_description
+        }
+        return JsonResponse({"data":response_data})

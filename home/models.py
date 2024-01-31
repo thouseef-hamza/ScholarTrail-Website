@@ -19,10 +19,10 @@ class Teacher(models.Model):
         upload_to="teachers/", default="teachers/teacher.jpg", blank=True
     )
     position = models.CharField(max_length=100)
-    short_description = models.CharField(max_length=255, null=True, blank=True)
+    short_description = models.TextField(null=True, blank=True)
 
     def __str__(self) -> str:
-        return self.first_name + self.last_name
+        return self.first_name + self.last_name if self.last_name else self.first_name
 
 
 class Course(models.Model):

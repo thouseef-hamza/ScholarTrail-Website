@@ -137,8 +137,55 @@
         </div>
     </div>
 </div>
-
+<div id="teacher-owl-carousel" >
+    {% for item in carousel1_items %}
+    <div class="item">
+        <h3>hvbjnkml,;.</h3>
+        <p> bhgggggggggggggggggggggggggggggggggggggggggggggggggggggggg</p>
+    </div>
+    {% endfor %}
+</div>
 <!-- Teachers List Section -->
+{% if teachers %}
+<section id="trainers-section" class="ftco-section bg-light">
+    <div class="container-fluid px-4">
+        <div class="row justify-content-center mb-5 pb-2">
+            <div class="col-md-8 text-center heading-section ftco-animate">
+                <h2 class="mb-4">Our Trainers</h2>
+            </div>
+        </div>
+        <div class="row owl-carousel"  >
+            {% for teacher in teachers %}
+            <div class="col-md-6 col-lg-3 ftco-animate">
+                <div class="staff">
+                    <div class="img-wrap d-flex align-items-stretch" height="191px" width="286px">
+                        <div class="img align-self-stretch"
+                            style="background-image: url('{{teacher.profile_picture.url}}');object-fit:cover;"></div>
+                    </div>
+                    <div class="text pt-3 text-center">
+                        <h3>{{teacher.first_name}} {{teacher.last_name}}</h3>
+                        <span class="position mb-2">{{teacher.position}}</span>
+                        <div class="faded">
+                            <p class="text text-lg-start">{{teacher.short_description|linebreaks|truncatechars:100}}</p>
+                            <button class="btn btn-primary" onclick="getTeacherDetail('{{teacher.id}}')">Read More -></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="teacher-modal-dialog" tabindex="-1" aria-labelledby="teacher-modal-dialog-label"
+aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="teacher-modal-body">
+            
+        </div>
+    </div>
+</div>
+{% endif %}
 
 
 <!-- Contact Us Section -->
@@ -219,15 +266,15 @@
                     <h2 class="ftco-heading-2">Recent Blog</h2>
                     {% for blog in blogs %}
                     <div class="block-21 mb-4 d-flex">
-                        <a class="blog-img mr-4" style="background-image: url('{{ blog.image.url }}');"></a>
+                        <a class="blog-img mr-4" href="{% url 'blog_detail' blog.id %}" style="background-image: url('{{ blog.image.url }}');text-decoration:none;"></a>
                         <div class="text">
                             <h3 class="heading"><a
-                                    href="{% url 'blog_detail' blog.id %}">{{blog.content|truncatechars:20}}</a></h3>
+                                    href="{% url 'blog_detail' blog.id %}" style="text-decoration:none;">{{blog.content|truncatechars:20}}</a></h3>
                             <div class="meta">
-                                <div><a href="#"><span class="icon-calendar"></span> {{blog.created_at|date:"F"}}
+                                <div><a href="#" style="text-decoration:none;"><span class="icon-calendar" ></span> {{blog.created_at|date:"F"}}
                                         {{blog.created_at|date:"d"}}, {{blog.created_at|date:"Y"}}</a></div>
-                                <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                                <div><a href="#"><span class="icon-chat"></span> {{blog.blog_comments.count}}</a></div>
+                                <div><a href="#" style="text-decoration:none;"><span class="icon-person" style="text-decoration:none;"></span> Admin</a></div>
+                                <div><a href="#" style="text-decoration:none;"><span class="icon-chat" style="text-decoration: none;"></span> {{blog.blog_comments.count}}</a></div>
                             </div>
                         </div>
                     </div>
@@ -239,8 +286,8 @@
                 <div class="ftco-footer-widget mb-5 ml-md-4">
                     <h2 class="ftco-heading-2">Links</h2>
                     <ul class="list-unstyled">
-                        <li><a href="#"><span class="ion-ios-arrow-round-forward mr-2"></span>Home</a></li>
-                        <li><a href="#"><span class="ion-ios-arrow-round-forward mr-2"></span>Contact</a></li>
+                        <li><a href="{% url 'home-view' %}" style="text-decoration:none;"><span class="ion-ios-arrow-round-forward mr-2"></span>Home</a></li>
+                        <li><a href="#" style="text-decoration:none;"><span class="ion-ios-arrow-round-forward mr-2"></span>Contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -267,6 +314,75 @@
 </footer>
 
 <script>
+     $(document).ready(function () {
+            $('#teacher-owl-carousel').owlCarousel({
+                loop: true,
+                margin: 10,
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: true
+                    },
+                    600: {
+                        items: 3,
+                        nav: false
+                    },
+                    1000: {
+                        items: 5,
+                        nav: true,
+                        loop: false
+                    }
+                }
+            });
+        });
+    function getTeacherDetail(id) {
+            console.log(id);
+            function closeTeacherModal() {
+                var teacherModal = new bootstrap.Modal(document.getElementById('teacher-modal-dialog'));
+                teacherModal.hide();
+                // Clear or reset any content inside the modal if necessary
+                document.getElementById('teacher-modal-dialog').innerHTML = '';
+            }
+
+            function openTeacherModal() {
+                var teacherModal = new bootstrap.Modal(document.getElementById('teacher-modal-dialog'));
+                teacherModal.show();
+            }
+
+            $(document).ready(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '/teacher/detail/' + id,
+                    success: function (response) {
+                        document.getElementById('teacher-modal-body').innerHTML=""
+                        openTeacherModal();
+                        document.getElementById('teacher-modal-body').innerHTML += `
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="teacher-modal-dialog-label">${response.data.first_name} ${response.data.last_name !== null ? response.data.last_name : ""} <span class="text text-danger">${response.data.position}<span></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                                onclick="closeTeacherModal()"></button>
+                        </div>
+                        <div class="modal-body" >
+                            <div class="container">
+                            <div class="row">
+                                <div class="col-3">
+                                <img src="${response.data.profile_picture}" class="img-fluid border border-2 border-danger" alt="${response.data.first_name} Image">
+                                </div>
+                                <div class="col">
+                                <p>${response.data.short_description.replace(/\n/g, '<br>')}</p>
+                                </div>
+                            </div>
+                            </div> 
+                        </div>
+                `;
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+        }
     function contactForm(event) {
         event.preventDefault();
         var formData = $('.appointment-form').serialize();

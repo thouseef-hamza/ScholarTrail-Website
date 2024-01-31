@@ -1,105 +1,102 @@
-{% extends "index.html" %}
-{% block title %}Scholar Trail - Blog Details{% endblock title %}
-{% block content %}
-<section class="ftco-section">
-			<div class="container">
-				<div class="row">
-          <div class="col-lg-8 ftco-animate">
-            
-            <h2 class="mb-3">{{blog_data.title_name}}</h2>
-              <img src="{{blog_data.image.url}}" alt="" class="img-fluid">
-            </p>
-            <p>{{blog_data.content|linebreaks}}</p>
-            {% comment %} <div class="tag-widget post-tag-container mb-5 mt-5">
-              <div class="tagcloud">
-                <a href="#" class="tag-cloud-link">Life</a>
-                <a href="#" class="tag-cloud-link">Sport</a>
-                <a href="#" class="tag-cloud-link">Tech</a>
-                <a href="#" class="tag-cloud-link">Travel</a>
+  {% extends "index.html" %}
+  {% block title %}Scholar Trail - Blog Details{% endblock title %}
+  {% block content %}
+  <section class="ftco-section">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-8 ftco-animate">
+
+                  <h2 class="mb-3">{{ blog_data.title_name }}</h2>
+                  <img src="{{ blog_data.image.url }}" alt="" class="img-fluid">
+                  <p>{{ blog_data.content|linebreaks }}</p>
+
+                  <div class="pt-5 mt-5">
+                      {% if blog_data.blog_comments.count != 0 %}
+                      <h3 class="mb-5 h4 font-weight-bold">{{ blog_data.blog_comments.count }} Comments</h3>
+                      {% endif %}
+                      <ul class="comment-list">
+                          {% for comment in blog_data.blog_comments.all %}
+                          <li class="comment">
+                              <div class="vcard bio">
+                                  <img src="{{ comment.profile_picture.url }}" alt="{{ comment.full_name }}">
+                              </div>
+                              <div class="comment-body">
+                                  <h3>{{ comment.full_name }}</h3>
+                                  <div class="meta mb-2">{{ comment.created_at|date:"g:iA, F j, Y" }}</div>
+                                  <p>{{ comment.message }}</p>
+                              </div>
+                          </li>
+                          {% endfor %}
+                      </ul>
+                  </div>
+
+                  <div class="comment-form-wrap pt-5">
+                      <h3 class="mb-5 h4 font-weight-bold">Leave a comment</h3>
+                    <div class="comment-form-wrap pt-5">
+                      <h3 class="mb-5 h4 font-weight-bold">Leave a comment</h3>
+                      <form id="comment_form" method="POST" class="p-5 bg-light">
+                        {% csrf_token %}
+                        <div id="enroll-message"></div>
+                        {{ forms.as_p }}
+                          <button id="submit_comment_form" type="submit" value="Post Comment" onclick="createComment(event)"
+                            class="btn py-3 px-4 btn-primary">Post Comment</button>
+                      </form>
+                    </div>
+                  </div>
               </div>
-            </div> {% endcomment %}
-            
-            {% comment %} <div class="about-author d-flex p-4 bg-light">
-              <div class="bio mr-5">
-                <img src="images/teacher-1.jpg" alt="Image placeholder" class="img-fluid mb-4">
+
+              {% if blogs.count >= 2 %}
+              <div class="col-lg-4 sidebar ftco-animate">
+                  <div class="sidebar-box ftco-animate">
+                      <h3>Other Blogs</h3>
+                  </div>
+                  {% for other_blog in blogs %}
+                  <div class="sidebar-box ftco-animate">
+                      <h3>{{ other_blog.title_name }}</h3>
+                      <p>{{ other_blog.content|truncatechars:50 }}</p>
+                      <p class="mb-0"><a href="{% url 'blog_detail' other_blog.id %}" class="btn btn-primary">Read More<span class="ion-ios-arrow-round-forward"></span></a></p>
+                  </div>
+                  {% endfor %}
               </div>
-              <div class="desc">
-                <h3>George Washington</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus voluptate quod mollitia delectus aut, sunt placeat nam vero culpa sapiente consectetur similique, inventore eos fugit cupiditate numquam!</p>
-              </div>
-            </div> {% endcomment %}
-            
-            
-            <div class="pt-5 mt-5">
-              {% if blog_data.blog_comments.count != 0 %}
-              <h3 class="mb-5 h4 font-weight-bold">{{blog_data.blog_comments.count}} Comments</h3>
               {% endif %}
-              <ul class="comment-list">
-                {% for comment in blog_data.blog_comments.distinct.all %}
-                <li class="comment">
-                  {% comment %} <div class="vcard bio">
-                    <img src="images/teacher-1.jpg" alt="Image placeholder">
-                  </div> {% endcomment %}
-                  <div class="comment-body">
-                    <h3>{{comment.full_name}}</h3>
-                    {% comment %} <div class="meta mb-2">June 27, 2019 at 2:21pm</div> {% endcomment %}
-                    <p>{{comment.message}}</p>
-                    {% comment %} <p><a href="#" class="reply">Reply</a></p> {% endcomment %}
-                  </div>
-                </li>
-                {% endfor %}
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-              <!-- END comment-list -->
-              
-              <div class="comment-form-wrap pt-5">
-                <h3 class="mb-5 h4 font-weight-bold">Leave a comment</h3>
-                <form action="{% url 'blog_detail' blog_data.id %}" method="POST" class="p-5 bg-light">
-                  {% csrf_token %}
-                  <div class="form-group">
-                    <label for="name">Name *</label>
-                    <input type="text" class="form-control" name="full_name" id="name" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="email">Email *</label>
-                    <input type="email" class="form-control" name="email" id="email" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="website">Website</label>
-                    <input type="url" class="form-control" name="website" id="website">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea name="message" id="message" cols="30" rows="10" class="form-control"></textarea>
-                  </div>
-                  <div class="form-group">
-                    <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary">
-                  </div>
-
-                </form>
-              </div>
-            </div>
-          </div> <!-- .col-md-8 -->
-          {% if blog_data.count >= 2 %}
-          
-          <div class="col-lg-4 sidebar ftco-animate">
-            <div class="sidebar-box ftco-animate">
-            	<h3>Other Blogs</h3>
-            </div> 
-            {% for blog in blogs %}
-            <div class="sidebar-box ftco-animate">
-              <h3>{{blog.title_name}}</h3>
-              <p>{{blog.content|truncatechars:50}}</p>
-	                <p class="mb-0"><a href="{% url 'blog_detail' blog.id %}" class="btn btn-primary">Read More <span class="ion-ios-arrow-round-forward"></span></a></p>
-            </div>
-            {% endfor %}
-          </div><!-- END COL -->
-          {% endif %}
-        </div>
-			</div>
-		</section>
-
-{% endblock content %}
+          </div>
+      </div>
+  </section>
+<script>
+  function createComment(event) {
+    localStorage.setItem("test","success")
+    event.preventDefault();
+    var formData = $('#comment_form').serialize();
+    $.ajax({
+      type: 'POST',
+      data: formData,
+      success: function (response) {
+        $('.error-message').remove();
+        if (response.status === 201) {
+          document.getElementById('enroll-message').innerHTML = `
+                    <div class="alert alert-success" role="alert">
+                        ${response.message}
+                    </div>
+                    `;
+          const form = document.getElementById('comment_form')
+          form.reset()
+          setTimeout(function () {
+            $('#enroll-message').fadeOut('slow');
+          }, 4000);
+        } else if (response.status === 400 && response.errors) {
+          $.each(response.errors, function (field, error) {
+            var inputField = $('#id_' + field);
+            inputField.after('<div class="error-message text-danger">' + error + '</div>');
+          });
+        } else {
+          console.error("Something Went Wrong")
+        }
+      },
+      error: function (error) {
+        console.log(error);
+      }
+    });
+  }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  {% endblock content %}
