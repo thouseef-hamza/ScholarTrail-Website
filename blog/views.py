@@ -30,7 +30,6 @@ class BlogDetailView(View):
         )
 class CommentCreateView(View):
     def post(self, request, id, *args, **kwargs):
-        print(request   )
         try:
             blog = BlogPost.objects.get(id=id)
         except BlogPost.DoesNotExist:

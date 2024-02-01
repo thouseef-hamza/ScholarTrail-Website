@@ -6,9 +6,9 @@
           <div class="row">
               <div class="col-lg-8 ftco-animate">
 
-                  <h2 class="mb-3">{{ blog_data.title_name }}</h2>
+                  <h2 class="mb-3">{{ blog_data.title_name|default:"" }}</h2>
                   <img src="{{ blog_data.image.url }}" alt="" class="img-fluid">
-                  <p>{{ blog_data.content|linebreaks }}</p>
+                  <p>{{ blog_data.content|linebreaks|default:"" }}</p>
 
                   <div class="pt-5 mt-5">
                       {% if blog_data.blog_comments.count != 0 %}
@@ -21,8 +21,8 @@
                                   <img src="{{ comment.profile_picture.url }}" alt="{{ comment.full_name }}">
                               </div>
                               <div class="comment-body">
-                                  <h3>{{ comment.full_name }}</h3>
-                                  <div class="meta mb-2">{{ comment.created_at|date:"g:iA, F j, Y" }}</div>
+                                  <h3>{{ comment.full_name|default:"" }}</h3>
+                                  <div class="meta mb-2">{{ comment.created_at|date:"g:iA, F j, Y" |default:""}}</div>
                                   <p>{{ comment.message }}</p>
                               </div>
                           </li>
@@ -46,8 +46,8 @@
                   </div>
                   {% for other_blog in blogs %}
                   <div class="sidebar-box ftco-animate">
-                      <h3>{{ other_blog.title_name }}</h3>
-                      <p>{{ other_blog.content|truncatechars:50 }}</p>
+                      <h3>{{ other_blog.title_name|default:"" }}</h3>
+                      <p>{{ other_blog.content|truncatechars:50|default:"" }}</p>
                       <p class="mb-0"><a href="{% url 'blog_detail' other_blog.id %}" class="btn btn-primary">Read More<span class="ion-ios-arrow-round-forward"></span></a></p>
                   </div>
                   {% endfor %}
@@ -56,6 +56,7 @@
           </div>
       </div>
   </section>
+  {% include "includes/footer.html" %}
   <script>
 
       function submitHandler(e,id) {
