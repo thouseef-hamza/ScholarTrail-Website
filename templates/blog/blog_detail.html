@@ -38,8 +38,8 @@
                     <button type="submit" onclick="submitHandler(event,'{{blog_data.id}}')" class="btn btn-primary">Submit</button>
                   </form>
                 </div>
-
-              {% if blogs.count >= 2 %}
+              </div>
+              {% comment %} {% if blogs.count >= 2 %} {% endcomment %}
               <div class="col-lg-4 sidebar ftco-animate">
                   <div class="sidebar-box ftco-animate">
                       <h3>Other Blogs</h3>
@@ -52,7 +52,7 @@
                   </div>
                   {% endfor %}
               </div>
-              {% endif %}
+              {% comment %} {% endif %} {% endcomment %}
           </div>
       </div>
   </section>
