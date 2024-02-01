@@ -27,85 +27,60 @@
 
 </head>
 <body>
-<style>
-    .navbar-light .navbar-nav .nav-link {
-        color: white;
-        font-family: Poppins,Arial,Sans-serif;
-    }
-
-     .navbar-light .navbar-nav .nav-link:hover,
-    .navbar-light .navbar-nav .nav-item.active .nav-link {
-        color: red;
-        font-family: Poppins,Arial,Sans-serif;
-    }
-</style>
-<nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: black;"  >
-  <div class="container-fluid" >
-    <a class="navbar-brand" href="#">
-        <img src="{%  static '/images/scholar-trail-logo.png' %}" alt="" width="80">
-    </a>
-    <button class="navbar-toggler" type="button"  style="border-color: red;color:red;padding: 2%;" data-bs-toggle="collapse" data-bs-target="#ftco-nav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      Menu
-    </button>
-<div class="collapse navbar-collapse ml-3" id="ftco-nav" >
-    <ul class="navbar-nav mr-auto">
-        <li class="nav-item mr-3 {% if request.path == '/' %}active{% endif %}">
-            <a href="{% url 'home-view' %}" class="nav-link pl-0">Home</a>
-        </li>
-        <li class="nav-item mr-3">
-            <a  href="#about-us"
-             class="nav-link {% if 'about-us' in request.path %}active{% endif %}">About Us</a>
-        </li>
-        <li class="nav-item mr-3">
-            <a href="#course-section"
-                class="nav-link {% if 'course-section' in request.path %}active{% endif %}">Courses</a>
-        </li>
-        <li class="nav-item mr-3">
-            <a href="#trainers-section"
-                class="nav-link {% if 'trainers-section' in request.path %}active{% endif %}">Trainers</a>
-        </li>
-        <li class="nav-item mr-3 {% if 'blogs' in request.path %}active{% endif %}">
-            <a href="{% url 'blogs-list' %}" class="nav-link">Blogs</a>
-        </li>
-        <li class="nav-item">
-            <a href="#about-us" id="about-us-page" onclick="aboutClick()" class="nav-link {% if 'contact-us' in request.path %}active{% endif %}">Contact Us</a>
-        </li>
-    </ul>
+<div class="bg-top navbar-light">
+    <div class="container">
+        <div class="row no-gutters d-flex align-items-center align-items-stretch">
+            <div class="col-md-4 d-flex align-items-center">
+                <a class="navbar-brand" href="#">
+                    <img src="{% static 'images/logo.jpg' %}" width="100px" alt="Your Logo">
+                </a>
+            </div>
+            <div class="col-lg-8 d-block">
+                <div class="row d-flex">
+                    <div class="col-md d-flex topper align-items-center align-items-stretch py-md-4">
+                        <div class="icon d-flex justify-content-center align-items-center"><span
+                                class="icon-paper-plane"></span></div>
+                        <div class="text">
+                            <span>Email</span>
+                            <span>info@scholartrail.org</span>
+                        </div>
+                    </div>
+                    <div class="col-md d-flex topper align-items-center align-items-stretch py-md-4">
+                        <div class="icon d-flex justify-content-center align-items-center"><span
+                                class="icon-phone2"></span></div>
+                        <div class="text">
+                            <span>Call</span>
+                            <span>Call Us: +91 9988094693</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-  </div>
+
+<nav class="navbar navbar-expand-lg navbar-dark  ftco-navbar-light" id="ftco-navbar">
+    <div class="container d-flex align-items-center px-4">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+            aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item {% if request.path == '/' %}active{% endif %} "><a href="{% url 'home-view' %}"
+                        class="nav-link pl-0">Home</a></li>
+                <li class="nav-item"><a href="#" onclick="navigate('about-us')" class="nav-link">About Us</a></li>
+                <li class="nav-item"><a href="#" onclick="navigate('course-section')" class="nav-link">Courses</a></li>
+                <li class="nav-item {% if request.path == '/#trainers-section' %}active{% endif %} "><a href="#" onclick="navigate('trainers-section')" class="nav-link">Trainers</a></li>
+                <li class="nav-item {% if request.path == '/blogs/' or '/blogs/blog/' in request.path %}active{% endif %}"><a
+                        href="{% url 'blogs-list' %}" class="nav-link">Blog</a></li>
+                <li class="nav-item"><a a href="#" onclick="navigate('about-us')"  class="nav-link">Contact Us</a></li>
+            </ul>
+        </div>
+    </div>
 </nav>
 {% block content %}
 {% endblock content %}
-<script>
-
-    document.addEventListener("DOMContentLoaded", function () {
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-
-                    const targetSection = document.querySelector(this.getAttribute('href'));
-
-                    // Check if the target is on the same page
-                    if (targetSection) {
-                        targetSection.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    } else {
-                        // External link, navigate to the URL 
-                        window.location.href = `/${this.getAttribute('href')}`
-                        setTimeout(()=>{
-                            console.log("nookkkate")
-                            window.location.href.scrollIntoView({
-                                behavior: 'smooth'
-                            });
-                        },1000)
-                    }
-                });
-            });
-        });
-
-</script>
 <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#b82632"/></svg></div>
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
@@ -120,7 +95,41 @@
 <script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
 <script src="{% static 'js/scrollax.min.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script>
+        function setPath(path){
+            localStorage.setItem("path",path)
+        }
+        function navigate(path){
+            setPath(path);
+            window.location.href="/"
+        }
+        // Function to scroll to the "about-us" section
+        function scrollToAboutUsSection(path) {
+            var aboutUsSection = document.getElementById(path);
+
+            if (aboutUsSection) {
+                aboutUsSection.scrollIntoView({
+                    behavior: "smooth"
+                });
+            }
+        }
+        // Function to initiate the scroll after 5 seconds
+        function initiateScrollToAboutUs(path) {
+            setTimeout(function () {
+                localStorage.removeItem("path")
+                if (path){
+                    scrollToAboutUsSection(path);
+                }
+            }, 100);
+        }
+
+        // Call the function to initiate the scroll after the page loads
+        window.onload = function () {
+            var path=localStorage.getItem("path")
+            initiateScrollToAboutUs(path);
+        };
+    
+</script>
 </body>
 </html>

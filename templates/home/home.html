@@ -26,7 +26,7 @@
       <div class="col-md-6 ftco-animate">
         <h1 class="mb-4">{{thumbnail.title_name}}</h1>
         <p>{{thumbnail.sub_title}}</p>
-        <p><a href="#contact-us"  class="btn btn-primary px-4 py-3 mt-3" >Contact Us</a></p>
+        <p><a href="" class="btn btn-primary px-4 py-3 mt-3" >Contact Us</a></p>
       </div>
     </div>
     </div>
@@ -137,46 +137,42 @@
         </div>
     </div>
 </div>
-<div id="teacher-owl-carousel" >
-    {% for item in carousel1_items %}
-    <div class="item">
-        <h3>hvbjnkml,;.</h3>
-        <p> bhgggggggggggggggggggggggggggggggggggggggggggggggggggggggg</p>
-    </div>
-    {% endfor %}
-</div>
 <!-- Teachers List Section -->
 {% if teachers %}
-<section id="trainers-section" class="ftco-section bg-light">
-    <div class="container-fluid px-4">
-        <div class="row justify-content-center mb-5 pb-2">
-            <div class="col-md-8 text-center heading-section ftco-animate">
-                <h2 class="mb-4">Our Trainers</h2>
-            </div>
-        </div>
-        <div class="row owl-carousel"  >
-            {% for teacher in teachers %}
-            <div class="col-md-6 col-lg-3 ftco-animate">
-                <div class="staff">
-                    <div class="img-wrap d-flex align-items-stretch" height="191px" width="286px">
-                        <div class="img align-self-stretch"
-                            style="background-image: url('{{teacher.profile_picture.url}}');object-fit:cover;"></div>
-                    </div>
-                    <div class="text pt-3 text-center">
-                        <h3>{{teacher.first_name}} {{teacher.last_name}}</h3>
-                        <span class="position mb-2">{{teacher.position}}</span>
-                        <div class="faded">
-                            <p class="text text-lg-start">{{teacher.short_description|linebreaks|truncatechars:100}}</p>
-                            <button class="btn btn-primary" onclick="getTeacherDetail('{{teacher.id}}')">Read More -></button>
-                        </div>
-                    </div>
+    <section id="trainers-section" class="ftco-section bg-light">
+        <div class="container-fluid px-4">
+            <div class="row justify-content-center mb-5 pb-2">
+                <div class="col-md-8 text-center heading-section ftco-animate">
+                    <h2 class="mb-4">Our Trainers</h2>
                 </div>
             </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
+            <div class="owl-carousel carousel-testimony">
+                {% for teacher in teachers %}
+                <div class="item">
 
+                        <!-- <div class="img-wrap d-flex align-items-stretch" height="191px" width="286px">
+                            <div class="img align-self-stretch"
+                                style="background-image: url('{{teacher.profile_picture.url}}');object-fit:cover;">
+                            </div>
+                        </div> -->
+                        <div  style="display:flex;align-items: center;justify-content: center;">
+                            <img src="{{teacher.profile_picture.url}}" alt=""  width="200px" height="300px"   >
+                        </div>
+                        <div class="text pt-3 text-center">
+                            <h3>{{teacher.first_name}} {% if teacher.last_name %} {{teacher.last_name }}{% endif %} </h3>
+                            <span class="position mb-2">{{teacher.position}}</span>
+                            <div class="faded">
+                                <p class="text text-lg-start">{{teacher.short_description|linebreaks|truncatechars:100}}
+                                </p>
+                                <button class="btn btn-primary" onclick="getTeacherDetail('{{teacher.id}}')">Read More
+                                    <i class="ion-ios-arrow-forward"></i></button>
+                            </div>
+                        </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 <div class="modal fade" id="teacher-modal-dialog" tabindex="-1" aria-labelledby="teacher-modal-dialog-label"
 aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -251,9 +247,9 @@ aria-hidden="true">
                         <ul>
                             <li><span class="icon icon-map-marker"></span><span class="text">Sector 8C, Madhya Marg,
                                     Chandigarh 160009</span></li>
-                            <li><h6 href="#"><span class="icon icon-phone"></span><span class="text">+919988094693,
-                                        +917719707307</span></h6></li>
-                            <li><a href="mailto:info@scholartrail.org"><span class="icon icon-envelope"></span><span
+                            <li><a href="#" style="text-decoration: none;"><span class="icon icon-phone" style="text-decoration: none;"></span><span class="text">+919988094693,
+                                        +917719707307</span></a></li>
+                            <li><a href="mailto:info@scholartrail.org" style="text-decoration: none;"><span class="icon icon-envelope"></span><span
                                         class="text">info@scholartrail.org</span></a></li>
                         </ul>
                     </div>
@@ -286,8 +282,11 @@ aria-hidden="true">
                 <div class="ftco-footer-widget mb-5 ml-md-4">
                     <h2 class="ftco-heading-2">Links</h2>
                     <ul class="list-unstyled">
-                        <li><a href="{% url 'home-view' %}" style="text-decoration:none;"><span class="ion-ios-arrow-round-forward mr-2"></span>Home</a></li>
-                        <li><a href="#" style="text-decoration:none;"><span class="ion-ios-arrow-round-forward mr-2"></span>Contact</a></li>
+                        <li><a href="{% url 'home-view' %}" style="text-decoration:none;" ><span class="ion-ios-arrow-round-forward mr-2"></span>Home</a></li>
+                        <li><a href="#" onclick="navigate('about-us')" style="text-decoration:none;"><span class="ion-ios-arrow-round-forward mr-2"></span>Contact</a></li>
+                        <li><a href="#" onclick="navigate('course-section')" style="text-decoration:none;"><span class="ion-ios-arrow-round-forward mr-2"></span>Courses</a></li>
+                        <li><a href="#" onclick="navigate('trainers-section')" style="text-decoration:none;"><span class="ion-ios-arrow-round-forward mr-2"></span>Trainers</a></li>
+                        <li><a href="{% url 'blogs-list' %}" style="text-decoration:none;"><span class="ion-ios-arrow-round-forward mr-2"></span>Contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -295,9 +294,9 @@ aria-hidden="true">
                 <div class="ftco-footer-widget mb-5">
                     <h2 class="ftco-heading-2 mb-0">Connect With Us</h2>
                     <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-3">
-                        <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                        <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                        <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+                        <li class="ftco-animate"><a href="https://www.instagram.com/scholartrail57/" target="_blank"><span class="icon-instagram"></span></a></li>
+                        <li class="ftco-animate"><a href="https://www.facebook.com/JesikaAccurateIELTS.57" target="_blank"><span class="icon-facebook"></span></a></li>
+                        <li class="ftco-animate"><a href="https://www.facebook.com/scholartrail/" target="_blank"><span class="icon-facebook"></span></a></li>
                     </ul>
                 </div>
             </div>
@@ -314,28 +313,6 @@ aria-hidden="true">
 </footer>
 
 <script>
-     $(document).ready(function () {
-            $('#teacher-owl-carousel').owlCarousel({
-                loop: true,
-                margin: 10,
-                responsiveClass: true,
-                responsive: {
-                    0: {
-                        items: 1,
-                        nav: true
-                    },
-                    600: {
-                        items: 3,
-                        nav: false
-                    },
-                    1000: {
-                        items: 5,
-                        nav: true,
-                        loop: false
-                    }
-                }
-            });
-        });
     function getTeacherDetail(id) {
             console.log(id);
             function closeTeacherModal() {
@@ -477,6 +454,7 @@ aria-hidden="true">
                 url: '/enroll/' + course_id + '/',
                 success: function (response) {
                     localStorage.setItem("course", JSON.stringify(response.data))
+                    document.getElementById('course_enroll_modal_body').innerHTML += ""
                     document.getElementById('course_enroll_modal_body').innerHTML += `
             <div class="mb-3">
               <label for="course_name" class="form-label">Course Name</label>

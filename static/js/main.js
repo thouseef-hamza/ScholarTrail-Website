@@ -64,27 +64,25 @@
 	    }
 		});
 		$('.carousel-testimony').owlCarousel({
-			autoplay: true,
-			center: true,
-			loop: true,
-			items:1,
-			margin: 30,
-			stagePadding: 0,
-			nav: false,
-			navText: ['<span class="ion-ios-arrow-back">', '<span class="ion-ios-arrow-forward">'],
-			responsive:{
-				0:{
+			items: 4, // Number of items to show in each slide
+			loop: true, // Enable loop
+			autoplay:true,
+			animateOut: 'fadeOut',
+			animateIn: 'fadeIn',
+			margin: 30, // Margin between items
+			responsiveClass: true,
+			responsive: {
+				0: {
 					items: 1
 				},
-				600:{
-					items: 1
-				},
-				1000:{
+				600: {
 					items: 2
+				},
+				1000: {
+					items: 4
 				}
 			}
 		});
-
 	};
 	carousel();
 

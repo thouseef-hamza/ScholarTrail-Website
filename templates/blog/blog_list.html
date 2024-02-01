@@ -12,7 +12,6 @@
         </div>
 				<div class="row">
                     {% for blog in blogs %}
-                    
                     <div class="col-md-6 col-lg-4 ftco-animate">
             <div class="blog-entry">
               <a href="{% url 'blog_detail' blog.id %}" class="block-20 d-flex align-items-end" style="background-image: url('{{blog.image.url}}');">

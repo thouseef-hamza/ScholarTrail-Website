@@ -85,7 +85,7 @@ class TeacherDetailView(View):
         response_data={
             "id":teacher.id,
             "first_name":teacher.first_name,
-            "last_name":teacher.last_name,
+            "last_name":teacher.last_name if teacher.last_name else "",
             "profile_picture":teacher.profile_picture.url,
             "position":teacher.position,
             "short_description":teacher.short_description
