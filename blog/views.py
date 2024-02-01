@@ -26,19 +26,17 @@ class BlogDetailView(View):
         return render(
             request,
             "blog/blog_detail.html",
-            {"blog_data": blog, "blogs": blogs, "forms": form},
+            {"blog_data": blog, "blogs": blogs, "form": form},
         )
-
+class CommentCreateView(View):
     def post(self, request, id, *args, **kwargs):
-        try:
-            print(request.is_ajax())
-        except:
-            pass
-        print(request.headers)
+        print(request   )
         try:
             blog = BlogPost.objects.get(id=id)
-        except:
-            return redirect("blogs-list")
+        except BlogPost.DoesNotExist:
+            return JsonResponse(
+                {"errors":" User Not Exist", "success": False, "status": 400}
+            )
         forms = CommentForm(request.POST)
         if not forms.is_valid():
             return JsonResponse(
@@ -54,3 +52,4 @@ class BlogDetailView(View):
         return JsonResponse(
             {"message": "Comment Created Successfully", "success": True, "status": 201}
         )
+

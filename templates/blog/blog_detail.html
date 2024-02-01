@@ -29,21 +29,15 @@
                           {% endfor %}
                       </ul>
                   </div>
-
-                  <div class="comment-form-wrap pt-5">
-                      <h3 class="mb-5 h4 font-weight-bold">Leave a comment</h3>
-                    <div class="comment-form-wrap pt-5">
-                      <h3 class="mb-5 h4 font-weight-bold">Leave a comment</h3>
-                      <form id="comment_form" method="POST" class="p-5 bg-light">
-                        {% csrf_token %}
-                        <div id="enroll-message"></div>
-                        {{ forms.as_p }}
-                          <button id="submit_comment_form" type="submit" value="Post Comment" onclick="createComment(event)"
-                            class="btn py-3 px-4 btn-primary">Post Comment</button>
-                      </form>
-                    </div>
-                  </div>
-              </div>
+                <div class="container pt-4">
+                  <h1>Leave a Comment</h1>
+                  <form method="POST" id="form">
+                    {% csrf_token %}
+                    <div id="enroll-message"></div>
+                    {{ form.as_p }}
+                    <button type="submit" onclick="submitHandler(event,'{{blog_data.id}}')" class="btn btn-primary">Submit</button>
+                  </form>
+                </div>
 
               {% if blogs.count >= 2 %}
               <div class="col-lg-4 sidebar ftco-animate">
@@ -62,41 +56,50 @@
           </div>
       </div>
   </section>
-<script>
-  function createComment(event) {
-    localStorage.setItem("test","success")
-    event.preventDefault();
-    var formData = $('#comment_form').serialize();
-    $.ajax({
-      type: 'POST',
-      data: formData,
-      success: function (response) {
-        $('.error-message').remove();
-        if (response.status === 201) {
-          document.getElementById('enroll-message').innerHTML = `
-                    <div class="alert alert-success" role="alert">
-                        ${response.message}
-                    </div>
+  <script>
+
+      function submitHandler(e,id) {
+        console.log(id)
+        e.preventDefault();
+        $.ajax({
+          type: 'POST', 
+          url: '/blogs/blog/'+id+'/comment/', 
+          data: $('#form').serialize(), // our form data
+          dataType: 'json', // what type of data do we expect back from the server
+          success: function (response) {
+            $('.error-message').remove();
+            if (response.status === 201) {
+              document.getElementById('enroll-message').innerHTML = `
+                        <div class="alert alert-success" role="alert">
+                            ${response.message}
+                        </div>
                     `;
-          const form = document.getElementById('comment_form')
-          form.reset()
-          setTimeout(function () {
-            $('#enroll-message').fadeOut('slow');
-          }, 4000);
-        } else if (response.status === 400 && response.errors) {
-          $.each(response.errors, function (field, error) {
-            var inputField = $('#id_' + field);
-            inputField.after('<div class="error-message text-danger">' + error + '</div>');
-          });
-        } else {
-          console.error("Something Went Wrong")
-        }
-      },
-      error: function (error) {
-        console.log(error);
+              const form = document.getElementById('form')
+              form.reset()
+              setTimeout(function () {
+                $('#enroll-message').fadeOut('slow');
+                window.location.reload()
+              }, 4000);
+            } else if (response.status === 400 && response.errors) {
+              $.each(response.errors, function (field, error) {
+                var inputField = $('#id_' + field);
+                inputField.after('<div class="error-message text-danger">' + error + '</div>');
+              });
+            } else {
+              console.error("Something Went Wrong")
+            }
+          }, 
+          error: function (error) {
+            console.log(error);
+          }
+        });
       }
-    });
-  }
-</script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  {% endblock content %}
+  </script>
+<script src="https://code.jquery.com/jquery-3.5.0.min.js"
+  integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  
+{% endblock content %}
