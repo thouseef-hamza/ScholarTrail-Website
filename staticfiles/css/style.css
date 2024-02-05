@@ -42,6 +42,19 @@
   box-sizing: border-box;
 }
 
+.carousel-testimony {
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carousel-testimony .item {
+  display: inline-block;
+  white-space: normal;
+  /* Allow text to wrap within items */
+  vertical-align: top;
+}
+
 html {
   font-family: sans-serif;
   line-height: 1.15;
@@ -624,7 +637,6 @@ pre code {
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  margin-right: -15px;
   margin-left: -15px;
 }
 
