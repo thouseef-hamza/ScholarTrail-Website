@@ -15,25 +15,25 @@
 </style>
 
 
-{% if thumbnails %}
-<!-- Thumbnail Section -->
-<section class="home-slider owl-carousel bg-danger">
-  {% for thumbnail in thumbnails %}
-  <div class="slider-item" style="background-image:url('{{thumbnail.background_image.url}}'); ">
-    <div class="overlay bg-danger"></div>
-    <div class="container">
-      <div class="row no-gutters slider-text align-items-center justify-content-start" data-scrollax-parent="true">
-      <div class="col-md-6 ftco-animate">
-        <h1 class="mb-4">{{thumbnail.title_name|default:""}}</h1>
-        <p>{{thumbnail.sub_title|default:""}}</p>
-        <p><a href="#" onclick="navigate('about-us')" class="btn btn-primary px-4 py-3 mt-3" >Contact Us</a></p>
-      </div>
+    {% if thumbnails %}
+    <!-- Thumbnail Section -->
+    <section class="home-slider owl-carousel bg-danger" style="touch-action: pan-y;">
+    {% for thumbnail in thumbnails %}
+    <div class="slider-item" style="background-image:url('{{thumbnail.background_image.url}}'); ">
+        <div class="overlay bg-danger"></div>
+        <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-start" data-scrollax-parent="true">
+        <div class="col-md-6 ftco-animate">
+            <h1 class="mb-4">{{thumbnail.title_name|default:""}}</h1>
+            <p>{{thumbnail.sub_title|default:""}}</p>
+            <p><a href="#" onclick="navigate('about-us')" class="btn btn-primary px-4 py-3 mt-3" >Contact Us</a></p>
+        </div>
+        </div>
+        </div>
     </div>
-    </div>
-  </div>
-  {% endfor %}
-</section>
-{% endif %}
+    {% endfor %}
+    </section>
+    {% endif %}
 
 <!-- Why Choose Us Section -->
    <section class="ftco-section ftco-counter img bg-danger" id="section-counter" style="background-image: url();" data-stellar-background-ratio="0.5">
@@ -158,7 +158,7 @@
                             <div class="faded">
                                 <p class="text text-lg-start">{{teacher.short_description|linebreaks|truncatechars:100|default:""}}
                                 </p>
-                                <button class="btn btn-primary" onclick="getTeacherDetail('{{teacher.id}}')">Read More
+                                <button class="btn btn-primary" ontouchstart="getTeacherDetail('{{teacher.id}}')">Read More
                                     <i class="ion-ios-arrow-forward"></i></button>
                             </div>
                         </div>
@@ -233,6 +233,14 @@ aria-hidden="true">
 {% include "includes/footer.html" %}
 
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+            var isTouchDevice = 'ontouchstart' in document.documentElement;
+            if (isTouchDevice) {
+                $('.home-slider').owlCarousel({
+                    touchDrag: false
+                });
+            }
+        });
     function getTeacherDetail(id) {
             console.log(id);
             function closeTeacherModal() {
