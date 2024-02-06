@@ -34,25 +34,14 @@
   --font-family-sans-serif:Poppins, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
-
+.home-slider {
+  touch-action: pan-y;
+}
 *,
 *::before,
 *::after {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-}
-
-.carousel-testimony {
-  overflow-x: auto;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-}
-
-.carousel-testimony .item {
-  display: inline-block;
-  white-space: normal;
-  /* Allow text to wrap within items */
-  vertical-align: top;
 }
 
 html {
@@ -1557,6 +1546,15 @@ pre code {
     -ms-flex-order: 13;
     order: 13;
   }
+
+.owl-carousel .home-slider {
+  -ms-touch-action: auto;
+  touch-action: auto;
+}
+.owl-carousel .carousel-testimony {
+  -ms-touch-action: auto;
+  touch-action: auto;
+}
 
   .order-lg-0 {
     -webkit-box-ordinal-group: 1;

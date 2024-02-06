@@ -48,6 +48,8 @@
 	    animateOut: 'fadeOut',
 	    animateIn: 'fadeIn',
 	    nav:false,
+		touchDrag: true, // Disable touch drag
+		mouseDrag: false, // Enable mouse drag
 	    autoplayHoverPause: false,
 	    items: 1,
 	    navText : ["<span class='ion-md-arrow-back'></span>","<span class='ion-chevron-right'></span>"],
@@ -61,7 +63,8 @@
 	      1000:{
 	        items:1
 	      }
-	    }
+	    },
+
 		});
 		$('.carousel-testimony').owlCarousel({
 			items: 4, // Number of items to show in each slide
@@ -69,6 +72,8 @@
 			autoplay:true,
 			animateOut: 'fadeOut',
 			animateIn: 'fadeIn',
+			touchDrag: true, // Disable touch drag
+			mouseDrag: false, // Enable mouse drag
 			margin: 30, // Margin between items
 			responsiveClass: true,
 			responsive: {
@@ -81,7 +86,8 @@
 				1000: {
 					items: 4
 				}
-			}
+			},
+			
 		});
 	};
 	carousel();
