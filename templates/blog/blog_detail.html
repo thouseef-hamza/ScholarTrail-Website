@@ -38,21 +38,19 @@
                     <button type="submit" onclick="submitHandler(event,'{{blog_data.id}}')" class="btn btn-primary">Submit</button>
                   </form>
                 </div>
-
-              {% if blogs.count >= 2 %}
+              </div>
+              {% comment %} {% if blogs.count >= 2 %} {% endcomment %}
               <div class="col-lg-4 sidebar ftco-animate">
-                  <div class="sidebar-box ftco-animate">
-                      <h3>Other Blogs</h3>
-                  </div>
                   {% for other_blog in blogs %}
                   <div class="sidebar-box ftco-animate">
+                    <img src="{{other_blog.image.url}}" width="300px" style="object-fit:contain;" alt="{{other_blog.title_name}}">
                       <h3>{{ other_blog.title_name|default:"" }}</h3>
                       <p>{{ other_blog.content|truncatechars:50|default:"" }}</p>
                       <p class="mb-0"><a href="{% url 'blog_detail' other_blog.id %}" class="btn btn-primary">Read More<span class="ion-ios-arrow-round-forward"></span></a></p>
                   </div>
                   {% endfor %}
               </div>
-              {% endif %}
+              {% comment %} {% endif %} {% endcomment %}
           </div>
       </div>
   </section>
