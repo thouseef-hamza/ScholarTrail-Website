@@ -22,7 +22,7 @@
             <div class="col-md-6 col-lg-3">
                 <div class="ftco-footer-widget mb-5">
                     <h2 class="ftco-heading-2">Recent Blog</h2>
-                    {% for blog in blogs %}
+                    {% for blog in blogs|slice:":2" %}
                     <div class="block-21 mb-4 d-flex">
                         <a class="blog-img mr-4" href="{% url 'blog_detail' blog.id %}" style="background-image: url('{{ blog.image.url }}');text-decoration:none;"></a>
                         <div class="text">

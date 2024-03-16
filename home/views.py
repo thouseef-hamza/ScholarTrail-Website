@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from home.models import Thumbnail, Teacher, EnrollCourse, Contact, Course
+from home.models import Thumbnail, Teacher, EnrollCourse, Contact, Course, Testimonial
 from blog.models import BlogPost, PostComment
 from django.views import View
 from home.forms import EnrollNowForm, ContactForm
@@ -15,6 +15,7 @@ class HomePageView(View):
         blogs = (
             BlogPost.objects.prefetch_related("blog_comments").all().order_by("-id")[:2]
         )
+        testimonials=Testimonial.objects.all()
         form = EnrollNowForm()
         context = {
             "thumbnails": thumbnails,
@@ -22,6 +23,7 @@ class HomePageView(View):
             "teachers": teachers,
             "form": form,
             "blogs": blogs,
+            "testimonials":testimonials
         }
         return render(request, "home/home.html", context)
 

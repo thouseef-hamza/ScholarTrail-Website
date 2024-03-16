@@ -41,7 +41,7 @@
               </div>
               {% comment %} {% if blogs.count >= 2 %} {% endcomment %}
               <div class="col-lg-4 sidebar ftco-animate">
-                  {% for other_blog in blogs %}
+                  {% for other_blog in blogs|slice:":4" %}
                   <div class="sidebar-box ftco-animate">
                     <img src="{{other_blog.image.url}}" width="300px" style="object-fit:contain;" alt="{{other_blog.title_name}}">
                       <h3>{{ other_blog.title_name|default:"" }}</h3>

@@ -59,3 +59,13 @@ class Contact(models.Model):
 
     def __str__(self) -> str:
         return self.first_name
+
+
+class Testimonial(models.Model):
+    full_name=models.CharField(max_length=150)
+    image=models.ImageField(upload_to="testimonials/",default="testimonials/student-avathar.jpg",blank=True)
+    review=models.TextField()
+    company=models.CharField(max_length=50,null=True,blank=True)
+    
+    def __str__(self) -> str:
+        return self.full_name

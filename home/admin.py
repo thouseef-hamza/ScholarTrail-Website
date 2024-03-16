@@ -1,5 +1,5 @@
 from django.contrib import admin
-from home.models import Course, Contact, Teacher, Thumbnail, EnrollCourse
+from home.models import Course, Contact, Teacher, Thumbnail, EnrollCourse,Testimonial
 from django.utils.html import format_html
 
 
@@ -82,3 +82,18 @@ class EnrollCourseAdmin(admin.ModelAdmin):
 
 
 admin.site.register(EnrollCourse, EnrollCourseAdmin)
+
+
+class TestimonialAdmin(admin.ModelAdmin):
+    list_display = ("full_name", "company")
+    search_fields = ["full_name", "company"]
+    list_filter = ("company",)
+    readonly_fields = ("image_preview",)
+
+    def image_preview(self, obj):
+        return obj.image.url if obj.image else None
+
+    image_preview.short_description = "Image Preview"
+    image_preview.allow_tags = True
+
+admin.site.register(Testimonial,TestimonialAdmin)

@@ -73,7 +73,8 @@
                 <li class="nav-item"><a href="#" onclick="navigate('about-us')" class="nav-link">About Us</a></li>
                 <li class="nav-item"><a href="#" onclick="navigate('course-section')" class="nav-link">Courses</a></li>
                 <li class="nav-item {% if request.path == '/#trainers-section' %}active{% endif %} "><a href="#" onclick="navigate('trainers-section')" class="nav-link">Trainers</a></li>
-                <li class="nav-item {% if request.path == '/blogs/' or '/blogs/blog/' in request.path %}active{% endif %}"><a
+                <li class="nav-item {% if '#testimonials-section' in request.path %}active{% endif %}"><a href="#testimonials-section" onclick="navigate('testimonials-section')" class="nav-link">Testimonials</a></li>
+                <li class="nav-item {% if '/blogs/' in request.path or '/blogs/blog/' in request.path %}active{% endif %}"><a
                         href="{% url 'blogs-list' %}" class="nav-link">Blog</a></li>
                 <li class="nav-item"><a a href="#" onclick="navigate('about-us')"  class="nav-link">Contact Us</a></li>
             </ul>
